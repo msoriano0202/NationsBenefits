@@ -1,0 +1,6 @@
+@NationsBenefits_HostAddress = http://localhost:5195
+
+GET {{NationsBenefits_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

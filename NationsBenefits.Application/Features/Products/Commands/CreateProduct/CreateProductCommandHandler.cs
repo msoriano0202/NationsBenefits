@@ -1,0 +1,51 @@
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using NationsBenefits.Application.Constants;
+using NationsBenefits.Application.Contracts.Persistence;
+using NationsBenefits.Application.Exceptions;
+using NationsBenefits.Domain;
+
+namespace NationsBenefits.Application.Features.Products.Commands.CreateProduct
+{
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    {
+        private readonly ILogger<CreateProductCommandHandler> _logger;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateProductCommandHandler(
+            ILogger<CreateProductCommandHandler> logger, 
+            IMapper mapper, 
+            IUnitOfWork unitOfWork)
+        {
+            _logger = logger;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        {
+            if(!await _unitOfWork.Repository<SubCategory>().ExistsByIdAsync(request.Subcategory_id))
+            {
+                var erroMessage = string.Format(ErrorMessages.EntityNotExists, nameof(SubCategory), request.Subcategory_id);
+                _logger.LogError(erroMessage);
+                throw new BadRequestException(erroMessage);
+            }
+
+            var productEntity = _mapper.Map<Product>(request);
+            _unitOfWork.Repository<Product>().AddEntity(productEntity);
+
+            var result = await _unitOfWork.Complete();
+
+            if (result <= 0)
+            {
+                var errorMessage = string.Format(ErrorMessages.EntityNotInserted, nameof(Product));
+                _logger.LogError(errorMessage);
+                throw new Exception(errorMessage);
+            }
+
+            return productEntity.Id;
+        }
+    }
+}
