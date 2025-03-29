@@ -4,7 +4,7 @@ using NationsBenefits.Application.Contracts.Persistence;
 using NationsBenefits.Application.Models;
 using NationsBenefits.Domain;
 
-namespace NationsBenefits.Application.Features.SubCategories.Queries
+namespace NationsBenefits.Application.Features.SubCategories.Queries.GetSubCategories
 {
     public class GetSubCategoriesQueryHandler : IRequestHandler<GetSubCategoriesQuery, IReadOnlyList<SubCategoryDto>>
     {

@@ -5,12 +5,6 @@ using NationsBenefits.Application.Models;
 using NationsBenefits.Application.Models.Shared;
 using NationsBenefits.Application.Specifications.Products;
 using NationsBenefits.Domain;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NationsBenefits.Application.Features.Products.Queries.GetPagedProducts
 {
