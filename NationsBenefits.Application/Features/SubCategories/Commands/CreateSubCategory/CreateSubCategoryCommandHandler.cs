@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using NationsBenefits.Application.Cache;
 using NationsBenefits.Application.Constants;
 using NationsBenefits.Application.Contracts.Persistence;
-using NationsBenefits.Application.Exceptions;
-using NationsBenefits.Application.Features.Products.Commands.CreateProduct;
 using NationsBenefits.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NationsBenefits.Application.Features.SubCategories.Commands.CreateSubCategory
 {
@@ -19,15 +13,18 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.CreateSubC
         private readonly ILogger<CreateSubCategoryCommandHandler> _logger;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cacheService;
 
         public CreateSubCategoryCommandHandler(
             ILogger<CreateSubCategoryCommandHandler> logger,
             IMapper mapper,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ICacheService cacheService)
         {
             _logger = logger;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
         }
 
         public async Task<int> Handle(CreateSubCategoryCommand request, CancellationToken cancellationToken)
@@ -43,6 +40,8 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.CreateSubC
                 _logger.LogError(errorMessage);
                 throw new Exception(errorMessage);
             }
+
+            _cacheService.RemoveData(RedisValues.SubCategoriesKey);
 
             return subCategoryEntity.Id;
         }

@@ -26,9 +26,10 @@ namespace NationsBenefits.Application.Features.Products.Commands.CreateProduct
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            if(!await _unitOfWork.Repository<SubCategory>().ExistsByIdAsync(request.Subcategory_id))
+            var subCategoryExist = await _unitOfWork.Repository<SubCategory>().GetByIdAsync(request.SubcategoryId);
+            if (subCategoryExist == null)
             {
-                var erroMessage = string.Format(ErrorMessages.EntityNotExists, nameof(SubCategory), request.Subcategory_id);
+                var erroMessage = string.Format(ErrorMessages.EntityNotExists, nameof(SubCategory), request.SubcategoryId);
                 _logger.LogError(erroMessage);
                 throw new BadRequestException(erroMessage);
             }

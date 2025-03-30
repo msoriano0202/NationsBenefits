@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using NationsBenefits.Application.Contracts.Persistence;
 using NationsBenefits.Application.Specifications;
 using NationsBenefits.Domain.Common;
@@ -25,13 +26,6 @@ namespace NationsBenefits.Infrastructure.Repositories
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return (await _context.Set<T>().Where(predicate).ToListAsync()).AsReadOnly();
-        }
-
-
-        public async Task<bool> ExistsByIdAsync(int id)
-        {
-            var entity = await _context.Set<T>().FindAsync(id);
-            return (entity != null);
         }
 
 
@@ -91,6 +85,14 @@ namespace NationsBenefits.Infrastructure.Repositories
         public IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
+        }
+
+        public async Task BulkInsertAsync(IEnumerable<T> buklData)
+        {
+            await _context.BulkInsertAsync<T>(buklData);
+
+            //await _context.Set<T>().AddRangeAsync(buklData);
+            //await _context.SaveChangesAsync();
         }
     }
 }

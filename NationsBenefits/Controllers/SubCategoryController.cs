@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NationsBenefits.Application.Features.SubCategories.Commands.BulkInsertSubCategory;
 using NationsBenefits.Application.Features.SubCategories.Commands.CreateSubCategory;
 using NationsBenefits.Application.Features.SubCategories.Commands.DeleteSubCategory;
 using NationsBenefits.Application.Features.SubCategories.Commands.UpdateSubCategory;
@@ -68,6 +69,14 @@ namespace NationsBenefits.API.Controllers
             var command = new DeleteSubCategoryCommand(id);
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpPost("BulkInsert", Name = "BulkInsertSubCategory")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<bool>> BulkInsertSubCategory([FromBody] BulkInsertSubCategoryCommand command)
+        {
+            return await _mediator.Send(command);
         }
     }
 }

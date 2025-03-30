@@ -17,12 +17,12 @@ namespace NationsBenefits.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.created_at = DateTime.Now;
-                        entry.Entity.updated_at = DateTime.Now;
+                        entry.Entity.CreatedAt = DateTime.Now;
+                        entry.Entity.UpdatedAt = DateTime.Now;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.updated_at = DateTime.Now;
+                        entry.Entity.UpdatedAt = DateTime.Now;
                         break;
                 }
             }
@@ -35,12 +35,12 @@ namespace NationsBenefits.Infrastructure.Persistence
             modelBuilder.Entity<SubCategory>().Metadata.SetSchema("product");
             modelBuilder.Entity<Product>().Metadata.SetSchema("product");
 
-            modelBuilder.Entity<SubCategory>()
-               .HasMany(m => m.Products)
-               .WithOne(m => m.SubCategory)
-               .HasForeignKey(m => m.Subcategory_id)
-               .IsRequired()
-               .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<SubCategory>()
+            //   .HasMany(m => m.Products)
+            //   .WithOne(m => m.SubCategory)
+            //   .HasForeignKey(m => m.Subcategory_id)
+            //   .IsRequired()
+            //   .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Product>? Products { get; set; }

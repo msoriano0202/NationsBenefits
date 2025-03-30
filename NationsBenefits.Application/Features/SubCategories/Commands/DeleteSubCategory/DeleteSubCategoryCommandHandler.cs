@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using NationsBenefits.Application.Cache;
 using NationsBenefits.Application.Constants;
 using NationsBenefits.Application.Contracts.Persistence;
 using NationsBenefits.Application.Exceptions;
@@ -12,13 +13,16 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.DeleteSubC
     {
         private readonly ILogger<DeleteSubCategoryCommandHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cacheService;
 
         public DeleteSubCategoryCommandHandler(
             ILogger<DeleteSubCategoryCommandHandler> logger,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ICacheService cacheService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
         }
 
         public async Task Handle(DeleteSubCategoryCommand request, CancellationToken cancellationToken)
@@ -44,10 +48,12 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.DeleteSubC
                 throw new BadRequestException(errorMessage);
             }
 
-
             _unitOfWork.Repository<SubCategory>().DeleteEntity(subCategoryToDelete);
 
             await _unitOfWork.Complete();
+
+            _cacheService.RemoveData(RedisValues.SubCategoriesKey);
+            _cacheService.RemoveData($"{RedisValues.SubCategoriesKey}_{request.Id}");
 
             _logger.LogInformation(string.Format(SuccessMessages.EntityDeleted, nameof(SubCategory), request.Id));
         }

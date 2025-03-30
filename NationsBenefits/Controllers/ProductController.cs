@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NationsBenefits.Application.Features.Products.Commands.BulkInsertProduct;
 using NationsBenefits.Application.Features.Products.Commands.CreateProduct;
 using NationsBenefits.Application.Features.Products.Commands.DeleteProduct;
 using NationsBenefits.Application.Features.Products.Commands.UpdateProduct;
@@ -67,6 +68,14 @@ namespace NationsBenefits.API.Controllers
             var command = new DeleteProductCommand(id);
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpPost("BulkInsert", Name = "BulkInsertProduct")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<bool>> BulkInsertProduct([FromBody] BulkInsertProductCommand command)
+        {
+            return await _mediator.Send(command);
         }
     }
 }

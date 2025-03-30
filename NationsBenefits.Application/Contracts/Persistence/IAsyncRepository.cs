@@ -9,7 +9,6 @@ namespace NationsBenefits.Application.Contracts.Persistence
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
 
-        Task<bool> ExistsByIdAsync(int id);
 
         Task<T> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
@@ -22,5 +21,7 @@ namespace NationsBenefits.Application.Contracts.Persistence
 
         Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec);
         Task<int> CountAsync(ISpecification<T> spec);
+
+        Task BulkInsertAsync(IEnumerable<T> buklData);
     }
 }
