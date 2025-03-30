@@ -16,10 +16,12 @@ namespace NationsBenefits.API.Controllers
     public class ProductController : ControllerBase
     {
         private IMediator _mediator;
+        private ILogger<ProductController> _logger;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, ILogger<ProductController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet("paged", Name = "PagedProducts")]

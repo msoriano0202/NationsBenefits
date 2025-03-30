@@ -12,7 +12,8 @@
     public static class SuccessMessages
     {
         public const string EntityInserted = $"{{0}} record was inserted";
-        public const string EntityUpdated = $"{{0}} with id: {{1}} was updated succesfully";
-        public const string EntityDeleted = $"{{0}} with id: {{1}} was deleted succesfully";
+        public const string EntityUpdated = $"{{0}} with id: {{1}} was updated successfully";
+        public const string EntityDeleted = $"{{0}} with id: {{1}} was deleted successfully";
+        public const string BulkInsertSuccess = $"{{0}} | Bulk Insert Success ({{1}} records)";
     }
 }

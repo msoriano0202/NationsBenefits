@@ -33,6 +33,7 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.BulkInsert
                     x.UpdatedAt = DateTime.Now;
                 });
                 await _unitOfWork.Repository<SubCategory>().BulkInsertAsync(dataToInsert);
+                _logger.LogInformation(string.Format(SuccessMessages.BulkInsertSuccess, nameof(SubCategory), request.Data.Count));
                 return true;
             }
             catch (Exception e)

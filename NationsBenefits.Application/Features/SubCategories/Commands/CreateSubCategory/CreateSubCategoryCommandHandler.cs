@@ -43,6 +43,7 @@ namespace NationsBenefits.Application.Features.SubCategories.Commands.CreateSubC
 
             _cacheService.RemoveData(RedisValues.SubCategoriesKey);
 
+            _logger.LogInformation(string.Format(SuccessMessages.EntityInserted, nameof(SubCategory)));
             return subCategoryEntity.Id;
         }
     }

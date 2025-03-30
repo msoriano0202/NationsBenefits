@@ -4,6 +4,7 @@ using NationsBenefits.Application;
 using NationsBenefits.Infrastructure;
 using NationsBenefits.API.Middleware;
 using NationsBenefits.Application.Cache;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1",
@@ -31,13 +31,9 @@ builder.Services.AddApplicationServices();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddSingleton<ICacheService, CacheService>();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
-//    .AllowAnyMethod()
-//    .AllowAnyHeader()
-//    );
-//});
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration)
+    );
 
 var app = builder.Build();
 
@@ -56,8 +52,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-//app.UseCors("CorsPolicy");
-
 app.MapControllers();
 
 
@@ -71,7 +65,6 @@ using (var scope = app.Services.CreateScope())
         var context = service.GetRequiredService<NationsBenefitsDbContext>();
         await context.Database.MigrateAsync();
         await NationBenefitsDbContextSeed.SeedAsync(context, loggerFactory);
-        //await StreamerDbContextSeedData.LoadDataAsync(context, loggerFactory);
 
         var contextIdentity = service.GetRequiredService<NationsBenefitsDbContext>();
         await contextIdentity.Database.MigrateAsync();

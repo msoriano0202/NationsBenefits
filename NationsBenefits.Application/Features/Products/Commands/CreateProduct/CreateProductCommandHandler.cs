@@ -46,6 +46,7 @@ namespace NationsBenefits.Application.Features.Products.Commands.CreateProduct
                 throw new Exception(errorMessage);
             }
 
+            _logger.LogInformation(string.Format(SuccessMessages.EntityInserted, nameof(Product)));
             return productEntity.Id;
         }
     }

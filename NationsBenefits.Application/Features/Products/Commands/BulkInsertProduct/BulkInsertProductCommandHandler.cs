@@ -34,6 +34,7 @@ namespace NationsBenefits.Application.Features.Products.Commands.BulkInsertProdu
                     x.UpdatedAt = DateTime.Now;
                 });
                 await _unitOfWork.Repository<Product>().BulkInsertAsync(dataToInsert);
+                _logger.LogInformation(string.Format(SuccessMessages.BulkInsertSuccess, nameof(Product), request.Data.Count));
                 return true;
             }
             catch (Exception e)

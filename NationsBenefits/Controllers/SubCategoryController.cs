@@ -16,10 +16,12 @@ namespace NationsBenefits.API.Controllers
     public class SubCategoryController : ControllerBase
     {
         private IMediator _mediator;
+        private ILogger<SubCategoryController> _logger;
 
-        public SubCategoryController(IMediator mediator)
+        public SubCategoryController(IMediator mediator, ILogger<SubCategoryController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet(Name = "GetSubcategories")]
