@@ -3,6 +3,7 @@ using NationsBenefits.Infrastructure.Persistence;
 using NationsBenefits.Application;
 using NationsBenefits.Infrastructure;
 using NationsBenefits.API.Middleware;
+using NationsBenefits.Application.Cache;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddSingleton<ICacheService, CacheService>();
 
 //builder.Services.AddCors(options =>
 //{
@@ -38,6 +40,8 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 //});
 
 var app = builder.Build();
+
+ConnectionHelper.AppSettingsConfigure(app.Services.GetRequiredService<IConfiguration>());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

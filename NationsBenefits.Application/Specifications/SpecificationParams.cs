@@ -6,10 +6,10 @@ namespace NationsBenefits.Application.Specifications
     {
         //public string? Search { get; set; }
         //public string? Sort { get; set; }
-        public int Page { get; set; } = ConstantValues.DefaultPage;
+        public int Page { get; set; } = PagingValues.DefaultPage;
 
-        private const int MaxPageSize = ConstantValues.DefaultMaxPageSize;
-        private int _pageSize = ConstantValues.DefaultMinPageSize;
+        private const int MaxPageSize = PagingValues.DefaultMaxPageSize;
+        private int _pageSize = PagingValues.DefaultMinPageSize;
 
         public int PageSize
         {

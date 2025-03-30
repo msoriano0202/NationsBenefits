@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using NationsBenefits.Application.Cache;
+using NationsBenefits.Application.Constants;
 using NationsBenefits.Application.Contracts.Persistence;
 using NationsBenefits.Application.Models;
 using NationsBenefits.Application.Models.Shared;
@@ -10,47 +13,62 @@ namespace NationsBenefits.Application.Features.Products.Queries.GetPagedProducts
 {
     public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuery, PagedResponse<ProductDto>>
     {
+        private readonly ILogger<GetPagedProductsQueryHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICacheService _cacheService;
 
         public GetPagedProductsQueryHandler(
+            ILogger<GetPagedProductsQueryHandler> logger,
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            ICacheService cacheService)
         {
+            _logger = logger;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
 
         public async Task<PagedResponse<ProductDto>> Handle(GetPagedProductsQuery request, CancellationToken cancellationToken)
         {
-            var productSpecificationParams = new ProductSpecificationParams
+            var redisKey = $"{RedisValues.ProductsKey}_{request.Page}_{request.PageSize}_{request.Name}";
+
+            var pagedProducts = _cacheService.GetData<PagedResponse<ProductDto>>(redisKey);
+            if (pagedProducts == null)
             {
-                Name = request.Name,
-                Page = request.Page,
-                PageSize = request.PageSize
-            };
+                var productSpecificationParams = new ProductSpecificationParams
+                {
+                    Name = request.Name,
+                    Page = request.Page,
+                    PageSize = request.PageSize
+                };
 
-            var spec = new ProductSpecification(productSpecificationParams);
-            var products = await _unitOfWork.Repository<Product>().GetAllWithSpec(spec);
+                var specCount = new ProductCountingSpecification(productSpecificationParams);
+                var totalProducts = await _unitOfWork.Repository<Product>().CountAsync(specCount);
 
-            var specCount = new ProductCountingSpecification(productSpecificationParams);
-            var totalProducts = await _unitOfWork.Repository<Product>().CountAsync(specCount);
+                var spec = new ProductSpecification(productSpecificationParams);
+                var products = await _unitOfWork.Repository<Product>().GetAllWithSpec(spec);
 
-            var rounded = Math.Ceiling(Convert.ToDecimal(totalProducts) / Convert.ToDecimal(productSpecificationParams.PageSize));
-            var totalPages = Convert.ToInt32(rounded);
+                var rounded = Math.Ceiling(Convert.ToDecimal(totalProducts) / Convert.ToDecimal(productSpecificationParams.PageSize));
+                var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<ProductDto>>(products);
+                var data = _mapper.Map<IReadOnlyList<ProductDto>>(products);
 
-            var pagination = new PagedResponse<ProductDto>
-            {
-                TotalCount = totalProducts,
-                Items = data,
-                TotalPages = totalPages,
-                CurrentPage = productSpecificationParams.Page,
-                PageSize = productSpecificationParams.PageSize
-            };
+                pagedProducts = new PagedResponse<ProductDto>
+                {
+                    TotalCount = totalProducts,
+                    Items = data,
+                    TotalPages = totalPages,
+                    CurrentPage = productSpecificationParams.Page,
+                    PageSize = productSpecificationParams.PageSize
+                };
 
-            return pagination;
+                var expirationTime = DateTime.Now.AddMinutes(RedisValues.CacheTimeInMinutes);
+                _cacheService.SetData<PagedResponse<ProductDto>>(redisKey, pagedProducts, expirationTime);
+            }
+
+            return pagedProducts;
         }
     }
 }
