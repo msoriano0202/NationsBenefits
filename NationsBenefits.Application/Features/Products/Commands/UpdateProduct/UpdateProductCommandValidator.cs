@@ -19,6 +19,9 @@ namespace NationsBenefits.Application.Features.Products.Commands.UpdateProduct
             RuleFor(p => p.Name)
                 .NotNull().WithMessage("{Name} can not be null")
                 .MaximumLength(150).WithMessage("{Name} exceed lenght");
+
+            RuleFor(p => p.Description)
+                .MaximumLength(1000).WithMessage("{Description} exceed lenght");
         }
     }
 }

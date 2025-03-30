@@ -14,6 +14,7 @@ namespace NationsBenefits.Application.Features.Products.Commands.BulkInsertProdu
                     {
                         context.AddFailure("{SubcategoryId} has to be greater than zero");
                     }
+
                     if (item.Ski == null)
                     {
                         context.AddFailure("{Ski} can not be null");
@@ -30,6 +31,11 @@ namespace NationsBenefits.Application.Features.Products.Commands.BulkInsertProdu
                     else if (item.Name.Length > 150)
                     {
                         context.AddFailure("{Name} exceed lenght");
+                    }
+
+                    if (item.Description?.Length > 1000)
+                    {
+                        context.AddFailure("{Description} exceed lenght");
                     }
                 }
             });
