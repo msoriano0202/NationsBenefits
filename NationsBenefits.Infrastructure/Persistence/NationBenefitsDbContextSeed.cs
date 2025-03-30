@@ -29,7 +29,7 @@ namespace NationsBenefits.Infrastructure.Persistence
             return new List<SubCategory>
             {
                 new SubCategory { Code = "001", Description = "001 Description", CategoryId = 1, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new SubCategory { Code = "002", Description = "002 Description", CategoryId = 2, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                //new SubCategory { Code = "002", Description = "002 Description", CategoryId = 2, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
             };
         }
 
@@ -38,7 +38,7 @@ namespace NationsBenefits.Infrastructure.Persistence
             return new List<Product>
             {
                 new Product { SubcategoryId = 1, Ski = "001 Ski", Name = "Product 001", Description = "001 Product Description", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
-                new Product { SubcategoryId = 2, Ski = "002 Ski", Name = "Product 002", Description = "002 Product Description", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
+                new Product { SubcategoryId = 1, Ski = "002 Ski", Name = "Product 002", Description = "002 Product Description", CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now },
             };
         }
     }

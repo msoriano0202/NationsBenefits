@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationsBenefits.API", "NationsBenefits\NationsBenefits.API.csproj", "{09C93534-28BB-440C-9AA5-C7631D8C346E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NationsBenefits.API", "NationsBenefits\NationsBenefits.API.csproj", "{09C93534-28BB-440C-9AA5-C7631D8C346E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3361F3E6-A355-45D9-B854-C0EC3A57EEED}"
 EndProject
@@ -15,11 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{14643E8E-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{2A59CF15-E43D-467A-8152-AA1F2BA1C93B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationsBenefits.Domain", "NationsBenefits.Domain\NationsBenefits.Domain.csproj", "{98E58FF4-1813-4F6A-8954-15CD4B0BE508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NationsBenefits.Domain", "NationsBenefits.Domain\NationsBenefits.Domain.csproj", "{98E58FF4-1813-4F6A-8954-15CD4B0BE508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationsBenefits.Application", "NationsBenefits.Application\NationsBenefits.Application.csproj", "{7EBD4A41-93BB-4200-937F-2EF7286C5107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NationsBenefits.Application", "NationsBenefits.Application\NationsBenefits.Application.csproj", "{7EBD4A41-93BB-4200-937F-2EF7286C5107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationsBenefits.Infrastructure", "NationsBenefits.Infrastructure\NationsBenefits.Infrastructure.csproj", "{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NationsBenefits.Infrastructure", "NationsBenefits.Infrastructure\NationsBenefits.Infrastructure.csproj", "{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationsBenefits.Application.UnitTests", "NationsBenefits.Application.UnitTests\NationsBenefits.Application.UnitTests.csproj", "{8455E060-B461-4086-B1E6-F95B67B8A8FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8455E060-B461-4086-B1E6-F95B67B8A8FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8455E060-B461-4086-B1E6-F95B67B8A8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8455E060-B461-4086-B1E6-F95B67B8A8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8455E060-B461-4086-B1E6-F95B67B8A8FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{98E58FF4-1813-4F6A-8954-15CD4B0BE508} = {14643E8E-29DE-4A59-82A6-DC4C8C0F7095}
 		{7EBD4A41-93BB-4200-937F-2EF7286C5107} = {14643E8E-29DE-4A59-82A6-DC4C8C0F7095}
 		{FED1EBCC-FFB9-4E3E-8C2B-C1728E4BC704} = {2A59CF15-E43D-467A-8152-AA1F2BA1C93B}
+		{8455E060-B461-4086-B1E6-F95B67B8A8FF} = {08B3C7E4-2E5C-4634-AC33-15FAB01F684E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09EDE445-7677-41D3-A96F-682E5A6B11AF}

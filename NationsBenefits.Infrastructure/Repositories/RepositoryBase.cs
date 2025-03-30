@@ -90,9 +90,6 @@ namespace NationsBenefits.Infrastructure.Repositories
         public async Task BulkInsertAsync(IEnumerable<T> buklData)
         {
             await _context.BulkInsertAsync<T>(buklData);
-
-            //await _context.Set<T>().AddRangeAsync(buklData);
-            //await _context.SaveChangesAsync();
         }
     }
 }

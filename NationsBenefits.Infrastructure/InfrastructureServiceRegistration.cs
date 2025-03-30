@@ -13,7 +13,7 @@ namespace NationsBenefits.Infrastructure
         {
 
             services.AddDbContext<NationsBenefitsDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("NationsBenefitConn"))
+                options.UseSqlServer(configuration.GetConnectionString("NationsBenefitsConn"))
             );
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

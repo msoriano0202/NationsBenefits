@@ -35,12 +35,12 @@ namespace NationsBenefits.Infrastructure.Persistence
             modelBuilder.Entity<SubCategory>().Metadata.SetSchema("product");
             modelBuilder.Entity<Product>().Metadata.SetSchema("product");
 
-            //modelBuilder.Entity<SubCategory>()
-            //   .HasMany(m => m.Products)
-            //   .WithOne(m => m.SubCategory)
-            //   .HasForeignKey(m => m.Subcategory_id)
-            //   .IsRequired()
-            //   .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SubCategory>()
+               .HasMany(m => m.Products)
+               .WithOne(m => m.SubCategory)
+               .HasForeignKey(m => m.SubcategoryId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Product>? Products { get; set; }

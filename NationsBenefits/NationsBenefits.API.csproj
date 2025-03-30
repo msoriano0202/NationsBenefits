@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Logs\" />
-    <Folder Include="Models\SubCategories\" />
   </ItemGroup>
 
 </Project>
