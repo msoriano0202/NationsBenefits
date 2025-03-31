@@ -7,7 +7,6 @@ using NationsBenefits.Application.Features.SubCategories.Commands.UpdateSubCateg
 using NationsBenefits.Application.Features.SubCategories.Queries.GetSubCategories;
 using NationsBenefits.Application.Features.SubCategories.Queries.GetSubCategoryById;
 using NationsBenefits.Application.Models;
-using System.Net;
 
 namespace NationsBenefits.API.Controllers
 {
@@ -24,8 +23,20 @@ namespace NationsBenefits.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get List of all Subcategories
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/v1/SubCategory
+        ///  
+        /// </remarks>
+        /// <returns>
+        /// <response code="200">Successful</response>
+        /// </returns>
         [HttpGet(Name = "GetSubcategories")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IReadOnlyList<SubCategoryDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyList<SubCategoryDto>))]
         public async Task<ActionResult<IReadOnlyList<SubCategoryDto>>> GetSubcategories()
         {
             var getSubCategoriesQuery = new GetSubCategoriesQuery();
@@ -33,6 +44,20 @@ namespace NationsBenefits.API.Controllers
             return Ok(subCategories);
         }
 
+        /// <summary>
+        /// Get a Subcategory by Id
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET /api/v1/SubCategory/123
+        ///     
+        /// </remarks> 
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="200">Successful</response>
+        /// <response code="404">Subcategory not found</response>
+        /// </returns>
         [HttpGet("{id}", Name = "GetSubCategoryById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -43,6 +68,25 @@ namespace NationsBenefits.API.Controllers
             return Ok(product);
         }
 
+        /// <summary>
+        /// Create a new Subcategory
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/v1/SubCategory
+        ///     {
+        ///         "Code": "001",
+        ///         "Description": "Test",
+        ///         "CategoryId": 1
+        ///     }
+        ///     
+        /// </remarks> 
+        /// <param name="command"></param>
+        /// <returns>
+        /// <response code="200">Successful</response>
+        /// <response code="400">Request Data not consistent</response>
+        /// </returns>
         [HttpPost(Name = "CreateSubCategory")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,6 +95,27 @@ namespace NationsBenefits.API.Controllers
             return await _mediator.Send(command);
         }
 
+        /// <summary>
+        /// Update an existing Subcategory
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     PUT /api/v1/SubCategory
+        ///     {
+        ///         "id": 1
+        ///         "Code": "001",
+        ///         "Description": "Test",
+        ///         "CategoryId": 1
+        ///     }
+        ///     
+        /// </remarks> 
+        /// <param name="command"></param>
+        /// <returns>
+        /// <response code="204">Successful</response>
+        /// <response code="404">Subcategory not found</response>
+        /// <response code="400">Request Data invalid</response>
+        /// </returns>
         [HttpPut(Name = "UpdateSubCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +126,21 @@ namespace NationsBenefits.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete existing Subcategory
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     DELETE /api/v1/SubCategory/123
+        ///     
+        /// </remarks> 
+        /// <param name="id"></param>
+        /// <returns>
+        /// <response code="204">Successful</response>
+        /// <response code="404">Subcategory not found</response>
+        /// <response code="400">Request Data invalid</response>
+        /// </returns>
         [HttpDelete("{id}", Name = "DeleteSubCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,6 +153,34 @@ namespace NationsBenefits.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Bulk inserting Subcategories 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST /api/v1/SubCategory/BulkInsert
+        ///     {
+        ///         "data": [
+        ///             {
+        ///                 "Code": "abc",
+        ///                 "Description": "Test A",
+        ///                 "CategoryId": 1
+        ///             },
+        ///             {
+        ///                 "Code": "def",
+        ///                 "Description": "Test B",
+        ///                 "CategoryId": 1
+        ///             }
+        ///         ]
+        ///     }
+        ///     
+        /// </remarks> 
+        /// <param name="command"></param>
+        /// <returns>
+        /// <response code="200">Successful</response>
+        /// <response code="400">Request Data invalid</response>
+        /// </returns>
         [HttpPost("BulkInsert", Name = "BulkInsertSubCategory")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

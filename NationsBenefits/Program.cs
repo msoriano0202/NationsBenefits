@@ -5,6 +5,8 @@ using NationsBenefits.Infrastructure;
 using NationsBenefits.API.Middleware;
 using NationsBenefits.Application.Cache;
 using Serilog;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,16 +16,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1",
+    options.SwaggerDoc("v1",
     new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "Nations Benefit API",
         Version = "v1",
         Description = "Web API to manage SubCatagories and Products"
     });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
